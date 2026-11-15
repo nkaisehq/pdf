@@ -18,8 +18,8 @@ ENV PORT=3002
 ENV HOSTNAME=0.0.0.0
 ENV OC_ENV=production
 ENV WEBSITE_URL=https://betterlife.nkaise.com
-ENV API_URL=https://api.betterlife.nkaise.com
-ENV IMAGES_URL=https://images.betterlife.nkaise.com
+ENV API_URL=https://betterlife-api.nkaise.com
+ENV IMAGES_URL=https://betterlife-images-api.nkaise.com
 ENV HYPERWATCH_ENABLED=false
 
 EXPOSE 3002

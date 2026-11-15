@@ -57,7 +57,7 @@ export const adaptApolloError = (error: unknown) => {
  */
 const getGraphqlUrl = (apiVersion: 'v1' | 'v2') => {
   const apiKey = process.env.API_KEY;
-  const baseApiUrl = process.env.API_URL || 'https://api.betterlife.com';
+  const baseApiUrl = process.env.API_URL || 'https://betterlife-api.nkaise.com';
   return `${baseApiUrl}/graphql/${apiVersion}${apiKey ? `?api_key=${apiKey}` : ''}`;
 };
 
