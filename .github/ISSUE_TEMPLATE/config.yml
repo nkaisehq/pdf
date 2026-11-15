@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issue Tracker
+    url: https://github.com/betterlife/betterlife/issues
+    about: Repository to track issues across all our projects
+  - name: Discord Channel
+    url: https://discord.betterlife.com
+    about: Engage with the BetterLife community
+  - name: Documentation
+    url: https://docs.betterlife.com/help/
+    about: Documentation for BetterLife
+  - name: Security Policy
+    url: https://github.com/betterlife/betterlife/security/policy
+    about: Please report security vulnerabilities as outlined here

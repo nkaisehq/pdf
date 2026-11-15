@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext", "DOM"],
+    "jsx": "react",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "types": ["node", "express"],
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["server/**/*", "instrument.ts"],
+  "exclude": ["node_modules", "dist"]
+}
