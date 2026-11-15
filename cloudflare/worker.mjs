@@ -52,6 +52,7 @@ export class BetterlifePdfContainer extends DurableObject {
           method: 'GET',
           signal: AbortSignal.timeout(1000),
         });
+        await res.body?.cancel();
         if (res.ok || res.status < 500) {
           return;
         }
@@ -97,20 +98,23 @@ export class BetterlifePdfContainer extends DurableObject {
   async fetch(request) {
     await this.#ensureContainerReady();
 
-    const url = new URL(request.url);
-    const headers = new Headers(request.headers);
-    if (!headers.has('x-forwarded-host')) {
-      headers.set('x-forwarded-host', url.host);
-    }
-    if (!headers.has('x-forwarded-proto')) {
-      headers.set('x-forwarded-proto', url.protocol.replace(':', ''));
-    }
-    const cfConnectingIp = headers.get('cf-connecting-ip');
-    if (cfConnectingIp && !headers.has('x-forwarded-for')) {
-      headers.set('x-forwarded-for', cfConnectingIp);
+    const originalUrl = new URL(request.url);
+    const originalHost = request.headers.get('original-hostname') || request.headers.get('host') || originalUrl.host;
+
+    const containerUrl = new URL(request.url);
+    containerUrl.protocol = 'http:';
+    containerUrl.host = 'container';
+
+    const forwarded = new Request(containerUrl, request);
+    forwarded.headers.delete('host');
+    forwarded.headers.set('x-forwarded-host', request.headers.get('x-forwarded-host') || originalHost);
+    forwarded.headers.set('x-forwarded-proto', originalUrl.protocol.replace(':', ''));
+
+    const clientIp = request.headers.get('cf-connecting-ip');
+    if (clientIp && !forwarded.headers.has('x-forwarded-for')) {
+      forwarded.headers.set('x-forwarded-for', clientIp);
     }
 
-    const forwarded = new Request(request, { headers });
     return this.ctx.container.getTcpPort(CONTAINER_PORT).fetch(forwarded);
   }
 }
