@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cms-pdf",
+  "main": "cloudflare/worker.mjs",
+  "compatibility_date": "2026-11-15",
+  "containers": [
+    {
+      "class_name": "BetterlifePdfContainer",
+      "image": "./Dockerfile",
+      "instance_type": "standard-1",
+      "max_instances": 5,
+    },
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "class_name": "BetterlifePdfContainer",
+        "name": "PDF_CONTAINER",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "new_sqlite_classes": [
+        "BetterlifePdfContainer"
+      ],
+      "tag": "v1",
+    },
+  ],
+  "vars": {
+    "CONTAINER_POOL_SIZE": "2",
+    "CONTAINER_INACTIVITY_TIMEOUT_MS": "300000",
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true,
+    },
+    "traces": {
+      "enabled": true,
+      "persist": true,
+      "head_sampling_rate": 1,
+    },
+  },
+}
